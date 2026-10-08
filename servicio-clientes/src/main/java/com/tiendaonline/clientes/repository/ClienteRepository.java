@@ -1,0 +1,8 @@
+package com.tiendaonline.clientes.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.tiendaonline.clientes.models.Cliente;
+
+public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
+
+}

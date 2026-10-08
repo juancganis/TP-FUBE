@@ -1,4 +1,4 @@
-package models;
+package com.tiendaonline.clientes.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Cliente {
 
-    private int id; // todo: FALTAN ANOTACIONES DE AUTOINCREMENTAL.
+    private Integer id; // todo: FALTAN ANOTACIONES DE AUTOINCREMENTAL.
     private String nombre; // todo: FALTA PII.
     private String email; // todo: FALTA PII.
     private LocalDate fechaAlta;
