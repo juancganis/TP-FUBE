@@ -1,4 +1,4 @@
-package enums;
+package com.tiendaonline.inventario.enums;
 
 public enum EstadoReserva {
 

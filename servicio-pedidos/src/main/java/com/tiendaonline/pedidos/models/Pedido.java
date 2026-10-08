@@ -1,10 +1,11 @@
-package models;
+package com.tiendaonline.pedidos.models;
 
-import enums.EstadoPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+
+import com.tiendaonline.pedidos.enums.EstadoPedido;
 
 @Data
 @NoArgsConstructor

@@ -1,4 +1,4 @@
-package enums;
+package com.tiendaonline.pedidos.enums;
 
 public enum EstadoPedido {
 

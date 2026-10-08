@@ -1,4 +1,4 @@
-package models;
+package com.tiendaonline.inventario.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

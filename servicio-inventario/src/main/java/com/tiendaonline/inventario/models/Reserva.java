@@ -1,6 +1,7 @@
-package models;
+package com.tiendaonline.inventario.models;
 
-import enums.EstadoReserva;
+import com.tiendaonline.inventario.enums.EstadoReserva;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
