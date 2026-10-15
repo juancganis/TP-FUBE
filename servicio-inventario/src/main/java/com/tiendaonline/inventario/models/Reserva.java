@@ -13,7 +13,7 @@ public class Reserva {
 
     private int id; // todo: FALTAN ANOTACIONES DE AUTOINCREMENTAL.
     private Producto producto;
-    private Pedido pedido; // todo: AGREGAR DEPENDENCIA DE PEDIDO.
+    private int idPedido; // todo: AGREGAR DEPENDENCIA DE PEDIDO.
     private int cantidad;
     private EstadoReserva estado;
 

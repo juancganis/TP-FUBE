@@ -1,0 +1,1 @@
+INSERT INTO reserva (sku,  nombre,  cantidad_disponible) INTO
