@@ -11,7 +11,7 @@ public class ItemPedido {
 
     private int id; // todo: FALTAN ANOTACIONES DE AUTOINCREMENTAL.
     private Pedido pedido;
-    private Producto producto; // todo: AGREGAR DEPENDENCIA DE PRODUCTO.
+    private int idProducto; // todo: AGREGAR DEPENDENCIA DE PRODUCTO.
     private int cantidad;
     private double precioUnitario;
 
