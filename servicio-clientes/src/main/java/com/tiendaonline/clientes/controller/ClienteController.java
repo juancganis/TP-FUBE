@@ -35,10 +35,10 @@ public class ClienteController {
 
     //}
 
-    //@GetMapping("/{id}")
-    //public ClienteDto consultarClientePorId(@PathVariable Integer id) {
-
-    //}
+    @GetMapping("/{id}")
+    public ClienteDto consultarClientePorId(@PathVariable Integer id) {
+        return clienteService.consultarClientePorId(id);
+    }
 
     //@GetMapping("/{id}/pedidos")
     //public ArrayList<Pedidos> consultarPedidosCliente(@PathVariable Integer id) {
