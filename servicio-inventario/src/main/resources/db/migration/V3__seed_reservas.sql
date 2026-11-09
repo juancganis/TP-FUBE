@@ -31,3 +31,9 @@ INSERT INTO reservas (producto_id, pedido_id, cantidad, estado, fecha_creacion) 
 ((SELECT id FROM productos WHERE sku = 'REM-AZ-XXL'), 26, 2, 'LIBERADA', NOW()),
 ((SELECT id FROM productos WHERE sku = 'REM-RO-XXL'), 27, 1, 'LIBERADA', NOW()),
 ((SELECT id FROM productos WHERE sku = 'REM-VE-XXL'), 28, 1, 'LIBERADA', NOW());
+
+-- Sincroniza la secuencia de IDs de reservas con el ID más alto existente, evitando conflictos con los próximos IDs generados automáticamente.
+SELECT setval(
+    pg_get_serial_sequence('reservas','id'),
+    (SELECT MAX(id) FROM reservas)
+);

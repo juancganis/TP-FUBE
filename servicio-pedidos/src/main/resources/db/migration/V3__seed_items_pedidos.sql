@@ -41,3 +41,9 @@ INSERT INTO items_pedido (pedido_id, producto_id, cantidad, precio_unitario) VAL
 (38, 5, 2, 17500.00),
 (39, 11, 1, 22500.00),
 (40, 17, 1, 19500.00);
+
+-- Sincroniza la secuencia de IDs de pedidos con el ID más alto existente, evitando conflictos con los próximos IDs generados automáticamente.
+SELECT setval(
+    pg_get_serial_sequence('items_pedido','id'),
+    (SELECT MAX(id) FROM items_pedido)
+);
