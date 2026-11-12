@@ -50,3 +50,9 @@ INSERT INTO clientes (id, nombre, email, fecha_alta) VALUES
 (49, 'Enzo Cardozo', 'enzo.cardozo@gmail.com', NOW()),
 (50, 'Renata Maidana', 'renata.maidana@hotmail.com', NOW()),
 (51, 'Francisco Nunez', 'francisco.nunez@yahoo.com', NOW());
+
+-- Sincroniza la secuencia de IDs de clientes con el ID más alto existente, evitando conflictos con los próximos IDs generados automáticamente.
+SELECT setval(
+    pg_get_serial_sequence('clientes','id'),
+    (SELECT MAX(id) FROM clientes)
+);
