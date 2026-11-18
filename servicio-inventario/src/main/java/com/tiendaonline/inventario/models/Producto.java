@@ -1,5 +1,6 @@
 package com.tiendaonline.inventario.models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType; // enum que contiene las estrategias 
 import jakarta.persistence.Id; // marca al id
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

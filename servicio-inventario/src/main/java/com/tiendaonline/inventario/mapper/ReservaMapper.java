@@ -9,23 +9,21 @@ import org.springframework.stereotype.Component;
 public class ReservaMapper {
 
     public ReservaDto toDto (Reserva reserva){
-        return new ReservaDto(
-                reserva.getId(),
-                reserva.getIdPedido(),
-                reserva.getCantidad(),
-                reserva.getFechaCreacion(),
-                reserva.getEstado(),
-                reserva.getProducto().getId());
+        return ReservaDto.builder().
+                id(reserva.getId()).
+                idPedido(reserva.getIdPedido()).
+                cantidad(reserva.getCantidad()).
+                fechaCreacion(reserva.getFechaCreacion()).
+                estado(reserva.getEstado()).idProducto(reserva.getProducto().getId()).build();
     }
 
     public Reserva toEntity (ReservaDto reservaDto, Producto producto){ // decidí pasarle directamente el producto así le cede la responsabilidad de buscar el producto más arriba
-        return new Reserva(
-                reservaDto.id(),
-                reservaDto.idPedido(),
-                reservaDto.cantidad(),
-                reservaDto.fechaCreacion(),
-                reservaDto.estado(),
-                producto
-        );
+        return Reserva.builder().
+                id(reservaDto.id()).
+                idPedido(reservaDto.idPedido()).
+                cantidad(reservaDto.cantidad()).
+                fechaCreacion(reservaDto.fechaCreacion()).
+                estado(reservaDto.estado()).
+                producto(producto).build();
     }
 }

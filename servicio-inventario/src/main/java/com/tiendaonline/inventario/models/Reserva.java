@@ -11,12 +11,14 @@ import jakarta.persistence.GeneratedValue; // te deja poner la estrategia para g
 import jakarta.persistence.GenerationType; // enum que contiene las estrategias para el GeneratedValue (IDENTITY la de la bdd)
 import jakarta.persistence.Id; // marca al id
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
