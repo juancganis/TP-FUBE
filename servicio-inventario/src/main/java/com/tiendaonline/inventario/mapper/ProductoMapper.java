@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductoMapper {
 
-    public ProductoDto toDto (Producto producto) {
+    // metodo de clase para pasar una clase de modelo a dto
+    public static ProductoDto toDto (Producto producto) {
         return ProductoDto.builder().
                 id(producto.getId()).
                 nombre(producto.getNombre()).
@@ -15,7 +16,8 @@ public class ProductoMapper {
                 cantidadDisponible(producto.getCantidadDisponible()).build();
     }
 
-    public Producto toEntity (ProductoDto productoDto){
+    // metodo de clase para pasar una clase dto a modelo
+    public static Producto toEntity (ProductoDto productoDto){
         return Producto.builder().
                 id(productoDto.id()).
                 nombre(productoDto.nombre()).
