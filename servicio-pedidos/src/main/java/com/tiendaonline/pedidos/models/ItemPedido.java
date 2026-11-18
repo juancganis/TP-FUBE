@@ -1,18 +1,35 @@
 package com.tiendaonline.pedidos.models;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import java.math.BigDecimal;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "items_pedido")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ItemPedido {
 
-    private int id; // todo: FALTAN ANOTACIONES DE AUTOINCREMENTAL.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
-    private int idProducto; // todo: AGREGAR DEPENDENCIA DE PRODUCTO.
+
+    @Column(name = "producto_id", nullable = false)
+    private int idProducto;
+
+    @Column(nullable = false)
     private int cantidad;
-    private double precioUnitario;
+
+    @Column(nullable = false)
+    private BigDecimal precioUnitario;
 
 }
