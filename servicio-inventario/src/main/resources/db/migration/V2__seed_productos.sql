@@ -29,3 +29,9 @@ INSERT INTO productos (sku,  nombre,  cantidad_disponible) VALUES
 ('REM-VE-L', 'Remera - Verde - Talle L', 22),
 ('REM-VE-XL', 'Remera - Verde - Talle XL', 14),
 ('REM-VE-XXL', 'Remera - Verde - Talle XXL', 6);
+
+-- Sincroniza la secuencia de IDs de productos con el ID más alto existente, evitando conflictos con los próximos IDs generados automáticamente.
+SELECT setval(
+    pg_get_serial_sequence('productos','id'),
+    (SELECT MAX(id) FROM productos)
+);

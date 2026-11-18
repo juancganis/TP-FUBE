@@ -46,3 +46,9 @@ INSERT INTO pedidos (id, cliente_id, estado, monto_total, fecha_creacion, fecha_
 (38, 38, 'EXPIRADO', 35000.00, NOW(), NOW()),
 (39, 39, 'EXPIRADO', 22500.00, NOW(), NOW()),
 (40, 40, 'EXPIRADO', 19500.00, NOW(), NOW());
+
+-- Sincroniza la secuencia de IDs de pedidos con el ID más alto existente, evitando conflictos con los próximos IDs generados automáticamente.
+SELECT setval(
+    pg_get_serial_sequence('pedidos','id'),
+    (SELECT MAX(id) FROM pedidos)
+);
