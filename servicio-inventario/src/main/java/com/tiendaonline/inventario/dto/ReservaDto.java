@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Builder
 public record ReservaDto (
         Integer id,
-        int idPedido,
+        Integer pedidoId,
         int cantidad,
         LocalDateTime fechaCreacion,
         EstadoReserva estado,
-        Integer idProducto
+        Integer productoId
 ){}

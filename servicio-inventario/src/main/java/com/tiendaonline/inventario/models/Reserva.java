@@ -27,7 +27,7 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int idPedido;
+    private int pedidoId;
     private int cantidad;
     private LocalDateTime fechaCreacion;
 
