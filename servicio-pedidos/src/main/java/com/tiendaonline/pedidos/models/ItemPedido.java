@@ -24,10 +24,10 @@ public class ItemPedido {
     private Pedido pedido;
 
     @Column(name = "producto_id", nullable = false)
-    private int idProducto;
+    private Integer productoId;
 
     @Column(nullable = false)
-    private int cantidad;
+    private Integer cantidad;
 
     @Column(nullable = false)
     private BigDecimal precioUnitario;
