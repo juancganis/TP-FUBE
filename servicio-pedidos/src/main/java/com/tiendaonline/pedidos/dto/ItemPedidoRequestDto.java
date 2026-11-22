@@ -1,6 +1,9 @@
 package com.tiendaonline.pedidos.dto;
 
+import lombok.Builder;
+
+@Builder
 public record ItemPedidoRequestDto(
      Integer productoId,
-     int cantidad
+     Integer cantidad
 ) {}
