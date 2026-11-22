@@ -3,9 +3,10 @@ package com.tiendaonline.clientes.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 public record ClienteDto(
-    @NotBlank 
+    @NotBlank (message = "El nombre es obligatorio")
     String nombre,
     
-    @NotBlank @Email 
+    @NotBlank (message = "El email es obligatorio")
+    @Email (message = "El email debe cumplir con el formato de correo")
     String email
 ) {}
