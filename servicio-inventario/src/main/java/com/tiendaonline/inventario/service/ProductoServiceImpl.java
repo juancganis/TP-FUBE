@@ -26,7 +26,6 @@ public class ProductoServiceImpl implements ProductoService {
                 orElseThrow(()->new ProductoNoEncontrado("Producto no encontrado con código " + sku));
 
         log.info("Se buscó el producto con sku "+sku);
-
         return respuesta;
     }
 

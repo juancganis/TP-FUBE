@@ -44,7 +44,8 @@ public class ReservaServiceImpl implements ReservaService {
                 id(producto.id()).
                 nombre(producto.nombre()).
                 sku(producto.sku()).
-                cantidadDisponible(producto.cantidadDisponible()-reservaResponseDto.cantidad()).build();
+                cantidadDisponible(producto.cantidadDisponible()-reservaResponseDto.cantidad()).
+                precioUnitario(producto.precioUnitario()).build();
 
         productoService.guardarEstado(productoModificado);
 
