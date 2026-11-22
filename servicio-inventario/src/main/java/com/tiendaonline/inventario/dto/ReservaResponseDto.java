@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 public record ReservaResponseDto(
         Integer pedidoId,
-        int cantidad,
+        Integer cantidad,
         LocalDateTime fechaCreacion,
         String sku
 ){}

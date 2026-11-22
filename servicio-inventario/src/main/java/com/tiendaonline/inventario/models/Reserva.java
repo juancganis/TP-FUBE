@@ -21,8 +21,8 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int pedidoId;
-    private int cantidad;
+    private Integer pedidoId;
+    private Integer cantidad;
     private LocalDateTime fechaCreacion;
 
     @Enumerated (EnumType.STRING) // para que guarde literalmente el string y no un numero que le corresponde al valor del enum

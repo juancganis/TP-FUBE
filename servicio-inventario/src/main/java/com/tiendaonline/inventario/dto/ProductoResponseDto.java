@@ -9,6 +9,6 @@ public record ProductoResponseDto(
         Integer id,
         String nombre,
         String sku,
-        int cantidadDisponible,
+        Integer cantidadDisponible,
         BigDecimal precioUnitario
 ){}

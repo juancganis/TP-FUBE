@@ -4,8 +4,10 @@ import com.tiendaonline.inventario.dto.ProductoResponseDto;
 import com.tiendaonline.inventario.exception.ProductoNoEncontrado;
 import com.tiendaonline.inventario.mapper.ProductoMapper;
 import com.tiendaonline.inventario.repository.ProductoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j // para los logs
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
@@ -19,9 +21,13 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoResponseDto consultarStock(String sku) {
         // busco en el repositorio por sku y este me retorna un Producto que tengo que pasar a dto
-        return productoRepository.findBySku(sku).
+        ProductoResponseDto respuesta = productoRepository.findBySku(sku).
                 map(ProductoMapper::toDto).
                 orElseThrow(()->new ProductoNoEncontrado("Producto no encontrado con código " + sku));
+
+        log.info("Se buscó el producto con sku "+sku);
+
+        return respuesta;
     }
 
 
@@ -29,6 +35,9 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoResponseDto guardarEstado(ProductoResponseDto productoResponseDto) {
         productoRepository.save(ProductoMapper.toEntity(productoResponseDto));
+
+        log.info("se actualizó el valor del producto "+ productoResponseDto.nombre());
+
         return productoResponseDto;
     }
 

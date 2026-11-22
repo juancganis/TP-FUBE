@@ -21,7 +21,7 @@ public class Producto {
     private Integer id;
     private String nombre;
     private String sku;
-    private int cantidadDisponible;
+    private Integer cantidadDisponible;
     private BigDecimal precioUnitario;
 
 }

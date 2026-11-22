@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/V1/reservas")
+@RequestMapping("/v1/reservas")
 public class ReservaController {
 
     private final ReservaService reservaService;

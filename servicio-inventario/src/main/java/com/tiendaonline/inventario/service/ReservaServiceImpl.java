@@ -10,10 +10,12 @@ import com.tiendaonline.inventario.mapper.ReservaMapper;
 import com.tiendaonline.inventario.models.Producto;
 import com.tiendaonline.inventario.models.Reserva;
 import com.tiendaonline.inventario.repository.ReservaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ReservaServiceImpl implements ReservaService {
 
@@ -52,6 +54,8 @@ public class ReservaServiceImpl implements ReservaService {
 
         reservaRepository.save(reserva);
 
+        log.info("Se creó una reserva para el pedido "+ reserva.getPedidoId());
+
         return new ReservaMapper().toDto(reserva);
     }
 
@@ -76,6 +80,8 @@ public class ReservaServiceImpl implements ReservaService {
             // actualizo el estado de la reserva y lo guardo
             reserva.setEstado(EstadoReserva.LIBERADA);
             reservaRepository.save(reserva);
+
+            log.info("Se liberó la reserva "+reserva.getId());
         }
 
     }
