@@ -1,11 +1,12 @@
 package com.tiendaonline.clientes.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
 import com.tiendaonline.clientes.dto.ClienteDto;
 import com.tiendaonline.clientes.exception.ClienteExistenteException;
+import com.tiendaonline.clientes.exception.ClienteNoExistentePorIdException;
 import com.tiendaonline.clientes.models.Cliente;
 import com.tiendaonline.clientes.repository.ClienteRepository;
 
@@ -20,7 +21,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override 
     public ClienteDto registrarCliente(ClienteDto clienteDto) {
-        LocalDate fechaDeAlta = LocalDate.now();
+        LocalDateTime fechaDeAlta = LocalDateTime.now();
         Cliente cliente = new Cliente(clienteDto.nombre(), clienteDto.email(), fechaDeAlta);
 
         validarClienteExistente(clienteDto);
@@ -31,7 +32,8 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override 
     public ClienteDto consultarClientePorId(Integer id) {
-        Cliente cliente = clienteRepository.getReferenceById(id);
+        Cliente cliente = clienteRepository.findById(id)
+            .orElseThrow(() -> new ClienteNoExistentePorIdException("El cliente no existe"));
         ClienteDto clienteDto = new ClienteDto(cliente.getNombre(), cliente.getEmail());
         return clienteDto;
     }
