@@ -25,7 +25,7 @@ public class ProductoServiceImpl implements ProductoService {
                 map(ProductoMapper::toDto).
                 orElseThrow(()->new ProductoNoEncontrado("Producto no encontrado con código " + sku));
 
-        log.info("Se buscó el producto con sku "+sku);
+        log.info("Se consultó stock del producto con sku "+sku);
         return respuesta;
     }
 
@@ -35,7 +35,7 @@ public class ProductoServiceImpl implements ProductoService {
     public ProductoResponseDto guardarEstado(ProductoResponseDto productoResponseDto) {
         productoRepository.save(ProductoMapper.toEntity(productoResponseDto));
 
-        log.info("se actualizó el valor del producto "+ productoResponseDto.nombre());
+        log.info("Se actualizó el valor del producto "+ productoResponseDto.nombre());
 
         return productoResponseDto;
     }
