@@ -13,7 +13,8 @@ public class ProductoMapper {
                 id(producto.getId()).
                 nombre(producto.getNombre()).
                 sku(producto.getSku()).
-                cantidadDisponible(producto.getCantidadDisponible()).build();
+                cantidadDisponible(producto.getCantidadDisponible()).
+                precioUnitario(producto.getPrecioUnitario()).build();
     }
 
     // metodo de clase para pasar una clase dto a modelo
@@ -22,6 +23,7 @@ public class ProductoMapper {
                 id(productoResponseDto.id()).
                 nombre(productoResponseDto.nombre()).
                 sku(productoResponseDto.sku()).
-                cantidadDisponible(productoResponseDto.cantidadDisponible()).build();
+                cantidadDisponible(productoResponseDto.cantidadDisponible()).
+                precioUnitario(productoResponseDto.precioUnitario()).build();
     }
 }
