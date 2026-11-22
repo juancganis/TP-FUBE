@@ -4,5 +4,5 @@ import com.tiendaonline.inventario.dto.ReservaResponseDto;
 
 public interface ReservaService {
     ReservaResponseDto crearReserva(ReservaResponseDto reservaResponseDto);
-    void liberarReserva(Integer idPedido);
+    void liberarReserva(Integer pedidoId);
 }

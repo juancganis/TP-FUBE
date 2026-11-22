@@ -3,12 +3,16 @@ package com.tiendaonline.inventario.service;
 import com.tiendaonline.inventario.dto.ProductoResponseDto;
 import com.tiendaonline.inventario.dto.ReservaResponseDto;
 import com.tiendaonline.inventario.enums.EstadoReserva;
+import com.tiendaonline.inventario.exception.ReservasNoEncontradas;
 import com.tiendaonline.inventario.exception.StockInsuficiente;
 import com.tiendaonline.inventario.mapper.ProductoMapper;
 import com.tiendaonline.inventario.mapper.ReservaMapper;
+import com.tiendaonline.inventario.models.Producto;
 import com.tiendaonline.inventario.models.Reserva;
 import com.tiendaonline.inventario.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
@@ -52,7 +56,27 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public void liberarReserva(Integer idPedido) {
+    public void liberarReserva(Integer pedidoId) {
+        // recibo el id de un pedido y libero todas las reservas relacionadas al pedido
+        // primero hago una lista de las reservas relacionadas al pedido que esten activas
+        List<Reserva> reservasActivas = reservaRepository.findByPedidoIdAndEstado(pedidoId, EstadoReserva.ACTIVA);
+
+        // si no se encontró ninguna reserva para ese pedido sale un error
+        if(reservasActivas.isEmpty()){throw new ReservasNoEncontradas("No se encontraron reservas para dicho pedido");}
+
+        // para cada reserva de reservasActivas le cambio el stock del producto que tiene
+        // y la libero en la bdd
+        for (Reserva reserva : reservasActivas){
+            // cambio stock
+            Producto producto = reserva.getProducto();
+
+            producto.setCantidadDisponible(producto.getCantidadDisponible()+reserva.getCantidad());
+            productoService.guardarEstado(ProductoMapper.toDto(producto));
+
+            // actualizo el estado de la reserva y lo guardo
+            reserva.setEstado(EstadoReserva.LIBERADA);
+            reservaRepository.save(reserva);
+        }
 
     }
 }

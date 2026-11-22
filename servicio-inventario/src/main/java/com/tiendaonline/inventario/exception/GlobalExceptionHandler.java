@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 
+    @ResponseStatus (HttpStatus.CONFLICT) //409 conflicto
+    @ExceptionHandler (ReservasNoEncontradas.class)
+    public String manejarReservasNoEncontradas(ReservasNoEncontradas ex){
+        return ex.getMessage();
+    }
+
 }
