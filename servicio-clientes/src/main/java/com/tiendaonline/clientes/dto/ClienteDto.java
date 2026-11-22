@@ -1,9 +1,12 @@
 package com.tiendaonline.clientes.dto;
 
-import java.time.LocalDate;
-//todo: agregar validaciones de campos a la hora de registrar el cliente
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 public record ClienteDto(
+    @NotBlank (message = "El nombre es obligatorio")
     String nombre,
-    String email,
-    LocalDate fechaAlta
+    
+    @NotBlank (message = "El email es obligatorio")
+    @Email (message = "El email debe cumplir con el formato de correo")
+    String email
 ) {}
