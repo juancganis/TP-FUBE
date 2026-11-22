@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     // Se lanza cuando servicio-inventario rechaza la reserva porque no alcanza el stock disponible.
-    @ResponseStatus (HttpStatus.CONFLICT) // Código de estado: 409.
+    /*@ResponseStatus (HttpStatus.CONFLICT) // Código de estado: 409.
     @ExceptionHandler (StockInsuficienteException.class)
     public ErrorResponseDto manejarStockInsuficiente(StockInsuficienteException ex){
         return new ErrorResponseDto(
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
                 "Stock insuficiente",
                 ex.getMessage()
         );
-    }
+    }*/
 
     // Se lanza al intentar realizar una operación no permitida para el estado actual del pedido, como cancelar uno ya cancelado o expirado.
     @ResponseStatus (HttpStatus.CONFLICT) // Código de estado: 409.
@@ -73,6 +73,19 @@ public class GlobalExceptionHandler {
                 errores
         );
     }
+
+    // Otra forma de hacerlo (Ganis), pero no considera ErrorResponseDto:
+    /* @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleValidacion(MethodArgumentNotValidException ex) {
+        Map<String, String> errores = new LinkedHashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errores.putIfAbsent(error.getField(), error.getDefaultMessage())
+        );
+        return errores;
+    }*/
+
+
 
     // Captura cualquier excepción no controlada para evitar exponer información interna al cliente.
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Código de estado: 500.
