@@ -70,8 +70,9 @@ public class PedidoMapper {
 
         if(itemPedidoRequestDto == null) return null;
 
+        // Solo mapeamos la cantidad porque el DTO de entrada trae el sku, mientras que
+        // productoId y precioUnitario se completan en PedidoServiceImpl al consultar servicio-inventario.
         return ItemPedido.builder()
-                .productoId(itemPedidoRequestDto.productoId())
                 .cantidad(itemPedidoRequestDto.cantidad())
                 .build();
 
