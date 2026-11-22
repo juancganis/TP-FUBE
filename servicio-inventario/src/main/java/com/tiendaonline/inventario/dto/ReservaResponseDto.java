@@ -1,17 +1,16 @@
 package com.tiendaonline.inventario.dto;
 
-import lombok.Builder;
-
 import com.tiendaonline.inventario.enums.EstadoReserva;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record ReservaDto (
+public record ReservaResponseDto(
         Integer id,
         Integer pedidoId,
         int cantidad,
         LocalDateTime fechaCreacion,
         EstadoReserva estado,
-        Integer productoId
+        String sku
 ){}

@@ -3,7 +3,7 @@ package com.tiendaonline.inventario.dto;
 import lombok.Builder;
 
 @Builder
-public record ProductoDto (
+public record ProductoResponseDto(
         Integer id,
         String nombre,
         String sku,

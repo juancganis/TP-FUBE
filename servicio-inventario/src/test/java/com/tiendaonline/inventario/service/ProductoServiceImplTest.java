@@ -1,7 +1,7 @@
 package com.tiendaonline.inventario.service;
 
 
-import com.tiendaonline.inventario.dto.ProductoDto;
+import com.tiendaonline.inventario.dto.ProductoResponseDto;
 import com.tiendaonline.inventario.models.Producto;
 import com.tiendaonline.inventario.repository.ProductoRepository;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +41,7 @@ public class ProductoServiceImplTest {
         Mockito.when(productoRepository.findBySku("001-RM-NE")).thenReturn(Optional.of(productoPrueba));
 
         // en este caso buscamos que el dto resultado dado por el service tenga lo que le pasamos originalmente
-        ProductoDto resultado = productoService.consultarStock("001-RM-NE");
+        ProductoResponseDto resultado = productoService.consultarStock("001-RM-NE");
 
         // Then: Resultado esperado
         // validamos que el nombre sea el que esperamos y que la cantidad también

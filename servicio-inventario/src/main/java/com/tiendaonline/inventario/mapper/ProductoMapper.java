@@ -1,6 +1,6 @@
 package com.tiendaonline.inventario.mapper;
 
-import com.tiendaonline.inventario.dto.ProductoDto;
+import com.tiendaonline.inventario.dto.ProductoResponseDto;
 import com.tiendaonline.inventario.models.Producto;
 import org.springframework.stereotype.Component;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class ProductoMapper {
 
     // metodo de clase para pasar una clase de modelo a dto
-    public static ProductoDto toDto (Producto producto) {
-        return ProductoDto.builder().
+    public static ProductoResponseDto toDto (Producto producto) {
+        return ProductoResponseDto.builder().
                 id(producto.getId()).
                 nombre(producto.getNombre()).
                 sku(producto.getSku()).
@@ -17,11 +17,11 @@ public class ProductoMapper {
     }
 
     // metodo de clase para pasar una clase dto a modelo
-    public static Producto toEntity (ProductoDto productoDto){
+    public static Producto toEntity (ProductoResponseDto productoResponseDto){
         return Producto.builder().
-                id(productoDto.id()).
-                nombre(productoDto.nombre()).
-                sku(productoDto.sku()).
-                cantidadDisponible(productoDto.cantidadDisponible()).build();
+                id(productoResponseDto.id()).
+                nombre(productoResponseDto.nombre()).
+                sku(productoResponseDto.sku()).
+                cantidadDisponible(productoResponseDto.cantidadDisponible()).build();
     }
 }

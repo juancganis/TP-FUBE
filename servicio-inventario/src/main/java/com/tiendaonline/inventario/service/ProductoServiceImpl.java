@@ -1,7 +1,7 @@
 package com.tiendaonline.inventario.service;
 
-import com.tiendaonline.inventario.controller.ProductoController;
-import com.tiendaonline.inventario.dto.ProductoDto;
+import com.tiendaonline.inventario.dto.ProductoResponseDto;
+import com.tiendaonline.inventario.exception.ProductoNoEncontrado;
 import com.tiendaonline.inventario.mapper.ProductoMapper;
 import com.tiendaonline.inventario.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,19 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public ProductoDto consultarStock(String sku) {
+    public ProductoResponseDto consultarStock(String sku) {
         // busco en el repositorio por sku y este me retorna un Producto que tengo que pasar a dto
         return productoRepository.findBySku(sku).
                 map(ProductoMapper::toDto).
-                orElseThrow(()->new RuntimeException("Producto no encontrado con código " + sku));
+                orElseThrow(()->new ProductoNoEncontrado("Producto no encontrado con código " + sku));
     }
+
+
+    // este metodo es para separar bien el service de producto con reserva
+    @Override
+    public ProductoResponseDto guardarEstado(ProductoResponseDto productoResponseDto) {
+        productoRepository.save(ProductoMapper.toEntity(productoResponseDto));
+        return productoResponseDto;
+    }
+
 }

@@ -2,14 +2,7 @@ package com.tiendaonline.inventario.models;
 
 import com.tiendaonline.inventario.enums.EstadoReserva;
 
-import jakarta.persistence.Enumerated; // le digo que es un enum
-import jakarta.persistence.EnumType; // le digo como quiero que guarde el enum
-import jakarta.persistence.ManyToOne; // para modelar la relacion varios -> uno
-import jakarta.persistence.JoinColumn; // le digo en que columna buscar
-import jakarta.persistence.Entity; // le digo que esta es una entidad de la bdd
-import jakarta.persistence.GeneratedValue; // te deja poner la estrategia para generar id
-import jakarta.persistence.GenerationType; // enum que contiene las estrategias para el GeneratedValue (IDENTITY la de la bdd)
-import jakarta.persistence.Id; // marca al id
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="Reservas")
 public class Reserva {
 
     @Id
