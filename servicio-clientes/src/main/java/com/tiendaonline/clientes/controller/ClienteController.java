@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-     
+
     private final ClienteService clienteService;
 
     //Inyeccion de dependencias
