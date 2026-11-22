@@ -27,7 +27,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public ReservaResponseDto crearReserva(ReservaResponseDto reservaResponseDto) {
-        // reviso que exista el producto
+        // reviso que exista el producto y miro el stock
         ProductoResponseDto producto = productoService.consultarStock(reservaResponseDto.sku());
 
         // reviso que alcance el stock para la reserva
