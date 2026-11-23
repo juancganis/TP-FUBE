@@ -1,4 +1,4 @@
-package com.tiendaonline.clientes;
+package com.tiendaonline.clientes.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -20,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tiendaonline.clientes.controller.ClienteController;
 import com.tiendaonline.clientes.dto.ClienteDto;
 import com.tiendaonline.clientes.dto.ItemPedidoDto;
 import com.tiendaonline.clientes.dto.PedidoDto;
