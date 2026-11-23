@@ -1,5 +1,7 @@
 package com.tiendaonline.clientes.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.tiendaonline.clientes.dto.ClienteDto;
+import com.tiendaonline.clientes.dto.PedidoDto;
 import com.tiendaonline.clientes.service.ClienteService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,8 +44,8 @@ public class ClienteController {
         return clienteService.consultarClientePorId(id);
     }
 
-    //@GetMapping("/{id}/pedidos")
-    //public ArrayList<PedidoDto> consultarPedidosCliente(@PathVariable Integer id) {
-        
-    //}
+    @GetMapping("/{id}/pedidos")
+    public List<PedidoDto> consultarPedidosCliente(@PathVariable("id") Integer id) {
+        return clienteService.consultarPedidosCliente(id);
+    }
 }

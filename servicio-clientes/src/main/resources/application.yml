@@ -20,3 +20,6 @@ spring:
 
 statsig:
   server-secret: ${STATSIG_KEY}
+servicios:
+  pedidos:
+    url: http://localhost:8083
