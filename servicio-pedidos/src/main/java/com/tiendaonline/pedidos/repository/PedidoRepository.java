@@ -13,10 +13,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     // Con esta consulta obtenemos todos los pedidos asociados a un cliente específico:
-    // List<Pedido> findByClienteId(Integer clienteId);
+    List<Pedido> findByClienteId(Integer clienteId);
 
     // Con esta consulta buscamos de forma paginada los pedidos en un estado determinado (ej. CREADO) cuya fecha de creación sea
     // anterior al límite indicado (para Spring Batch):
-    // Page<Pedido> findByEstadoAndFechaCreacionBefore(EstadoPedido estado, LocalDateTime fechaLimite, Pageable pageable);
+    Page<Pedido> findByEstadoAndFechaCreacionBefore(EstadoPedido estado, LocalDateTime fechaLimite, Pageable pageable);
 
 }

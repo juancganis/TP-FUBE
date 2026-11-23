@@ -43,6 +43,7 @@ public class PedidoRepositoryTest {
                 .estado(EstadoPedido.CREADO)
                 .montoTotal(new BigDecimal("1000.00"))
                 .fechaCreacion(ahora.minusHours(30))
+                .fechaActualizacion(ahora.minusHours(30))
                 .build();
 
         // Pedido 2: cliente con id 10, estado CONFIRMADO, hace 2 horas (vigente, no debería expirar).
@@ -51,6 +52,7 @@ public class PedidoRepositoryTest {
                 .estado(EstadoPedido.CONFIRMADO)
                 .montoTotal(new BigDecimal("2500.00"))
                 .fechaCreacion(ahora.minusHours(2))
+                .fechaActualizacion(ahora.minusHours(2))
                 .build();
 
         // Pedido 3: cliente con id 20, estado CREADO, hace 40 horas (vencido, pero de otro cliente).
@@ -59,6 +61,7 @@ public class PedidoRepositoryTest {
                 .estado(EstadoPedido.CREADO)
                 .montoTotal(new BigDecimal("500.00"))
                 .fechaCreacion(ahora.minusHours(40))
+                .fechaActualizacion(ahora.minusHours(40))
                 .build();
 
         // Generamos una lista de esos 3 clientes de prueba creados y la persistimos en la base de datos en memoria H2.
