@@ -14,9 +14,11 @@ import com.tiendaonline.clientes.repository.ClienteRepository;
 public class ClienteServiceImpl implements ClienteService{
 
     private final ClienteRepository clienteRepository;
+    private final FeatureFlagService featureFlagService;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, FeatureFlagService featureFlagService) {
         this.clienteRepository = clienteRepository;
+        this.featureFlagService = featureFlagService;
     }
 
     @Override 
@@ -30,12 +32,15 @@ public class ClienteServiceImpl implements ClienteService{
         return clienteDto;
     }
 
-    @Override 
+    @Override
     public ClienteDto consultarClientePorId(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
             .orElseThrow(() -> new ClienteNoExistentePorIdException("El cliente no existe"));
-        ClienteDto clienteDto = new ClienteDto(cliente.getNombre(), cliente.getEmail());
-        return clienteDto;
+
+        if (featureFlagService.isEnabled("mask-pii", String.valueOf(id))) {
+            return new ClienteDto(cliente.nombreEnmascarado(), cliente.emailEnmascarado());
+        }
+        return new ClienteDto(cliente.getNombre(), cliente.getEmail());
     }
 
     public void validarClienteExistente(ClienteDto clienteDto) throws ClienteExistenteException {
