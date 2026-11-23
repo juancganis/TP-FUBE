@@ -62,9 +62,9 @@ public class PedidoController {
     // Metodo para cancelar un pedido existente con estado CREADO o CONFIRMADO, liberando la reserva de stock asociada en servicio-inventario.
     @PostMapping("/{id}/cancelar")
     @Operation(summary = "Cancelar pedido en estado CREADO o CONFIRMADO", description = "Cambia el estado del pedido a CANCELADO y libera el stock reservado en servicio-inventario")
-    public ResponseEntity<PedidoResponseDto> cancelarPedido(@PathVariable Integer idPedido){
+    public ResponseEntity<PedidoResponseDto> cancelarPedido(@PathVariable Integer id){
 
-        return ResponseEntity.ok((pedidoService.cancelarPedido(idPedido)));
+        return ResponseEntity.ok((pedidoService.cancelarPedido(id)));
 
     }
 
