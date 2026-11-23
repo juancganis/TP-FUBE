@@ -38,10 +38,15 @@ public class PedidoServiceImpl implements PedidoService{
         // Validamos que el cliente exista en servicio-clientes:
         clienteClient.validarExistenciaCliente(requestDto.clienteId());
 
+        // Creamos una variable que almacene el tiempo actual de cuando se cree el pedido
+        // (ya que, inicialmente, la fecha de actualizacion debe ser igual a la de creacion).
+        LocalDateTime fechaAhora = LocalDateTime.now();
+
         // Transformamos el DTO en entidad y completamos sus datos iniciales:
         Pedido pedido = PedidoMapper.toEntity(requestDto);
         pedido.setEstado(EstadoPedido.CREADO);
-        pedido.setFechaCreacion(LocalDateTime.now());
+        pedido.setFechaCreacion(fechaAhora);
+        pedido.setFechaActualizacion(fechaAhora);
 
         BigDecimal montoTotal = BigDecimal.ZERO;
 
@@ -71,8 +76,9 @@ public class PedidoServiceImpl implements PedidoService{
 
             ReservaStockRequestDto reservaRequest = new ReservaStockRequestDto(
                     pedidoGuardado.getId(),
-                    itemDto.sku(),
-                    itemDto.cantidad()
+                    itemDto.cantidad(),
+                    pedidoGuardado.getFechaCreacion(),
+                    itemDto.sku()
             );
             inventarioClient.reservarStock(reservaRequest);
 
@@ -119,8 +125,13 @@ public class PedidoServiceImpl implements PedidoService{
         // Notificamos a servicio-inventario para liberar el stock reservado de este pedido:
         inventarioClient.liberarReservasPorPedido(pedidoId);
 
-        // Actualizamos el estado a CANCELADO y persistimos:
+        // Actualizamos el estado a CANCELADO:
         pedido.setEstado(EstadoPedido.CANCELADO);
+
+        // Le ponemos fecha de actualizacion "ahora":
+        pedido.setFechaActualizacion(LocalDateTime.now());
+
+        // Persistimos:
         Pedido pedidoActualizado = pedidoRepository.save(pedido);
 
         return PedidoMapper.toDTO(pedidoActualizado);
