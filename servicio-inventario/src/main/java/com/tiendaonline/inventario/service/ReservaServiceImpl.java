@@ -34,6 +34,7 @@ public class ReservaServiceImpl implements ReservaService {
 
         // reviso que alcance el stock para la reserva
         if(reservaResponseDto.cantidad()>producto.cantidadDisponible()){
+            log.warn("Stock insuficiente del producto " + producto.nombre() + " para realizar la operación");
             throw new StockInsuficiente("No alcanza el stock del producto "+ producto.nombre());
         }
         // si pasó significa que tiene stock
@@ -67,7 +68,10 @@ public class ReservaServiceImpl implements ReservaService {
         List<Reserva> reservasActivas = reservaRepository.findByPedidoIdAndEstado(pedidoId, EstadoReserva.ACTIVA);
 
         // si no se encontró ninguna reserva para ese pedido sale un error
-        if(reservasActivas.isEmpty()){throw new ReservasNoEncontradas("No se encontraron reservas para dicho pedido");}
+        if(reservasActivas.isEmpty()){
+            log.warn("Se intentó eliminar reservas de un pedido inexistente (pedidoId: " + pedidoId + ")");
+            throw new ReservasNoEncontradas("No se encontraron reservas para dicho pedido");
+        }
 
         // para cada reserva de reservasActivas le cambio el stock del producto que tiene
         // y la libero en la bdd

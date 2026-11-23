@@ -2,11 +2,13 @@ package com.tiendaonline.inventario.exception;
 
 
 import com.tiendaonline.inventario.dto.ErrorResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -14,6 +16,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus (HttpStatus.NOT_FOUND) //404 no encontrado
     @ExceptionHandler (ProductoNoEncontrado.class)
     public ErrorResponseDto manejarProductoNoEncontrado(ProductoNoEncontrado ex) {
+
+        log.warn(ex.getMessage());
 
         return new ErrorResponseDto(
                 HttpStatus.NOT_FOUND.value(),
