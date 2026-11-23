@@ -48,7 +48,7 @@ public class PedidoServiceImpl implements PedidoService{
         pedido.setFechaCreacion(fechaAhora);
         pedido.setFechaActualizacion(fechaAhora);
 
-        BigDecimal montoTotal = BigDecimal.ZERO;
+        BigDecimal montoTotal = BigDecimal.ZERO; // Representa el valor numerico 0 (es una constante del sistema, evita instanciar siempre el numero 0).
 
         // Consultamos cada producto en inventario por sku para obtener su id real y precio unitario actual:
         for (int i = 0; i < requestDto.listaItemsPedido().size(); i++) {
@@ -74,12 +74,13 @@ public class PedidoServiceImpl implements PedidoService{
         // Solicitamos la reserva de stock para cada ítem en servicio-inventario:
         for (ItemPedidoRequestDto itemDto : requestDto.listaItemsPedido()) {
 
-            ReservaStockRequestDto reservaRequest = new ReservaStockRequestDto(
-                    pedidoGuardado.getId(),
-                    itemDto.cantidad(),
-                    pedidoGuardado.getFechaCreacion(),
-                    itemDto.sku()
-            );
+            ReservaStockRequestDto reservaRequest = ReservaStockRequestDto.builder()
+                            .pedidoId(pedidoGuardado.getId())
+                            .cantidad(itemDto.cantidad())
+                            .fechaCreacion(pedidoGuardado.getFechaCreacion())
+                            .sku(itemDto.sku())
+                            .build();
+
             inventarioClient.reservarStock(reservaRequest);
 
         }
