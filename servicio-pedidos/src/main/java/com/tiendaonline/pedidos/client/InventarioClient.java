@@ -34,17 +34,21 @@ public class InventarioClient {
     }
 
     // 1. Con el siguiente metodo, enviamos un GET a servicio-inventario para consulta el producto (y obtener su precioUnitario y su sku).
-    public ProductoResponseDto obtenerProducto(Integer productoId) {
+    public ProductoResponseDto obtenerProducto(String sku) {
         try {
-            return restTemplate.getForObject(baseUrl + "/v1/productos/" + productoId, ProductoResponseDto.class);
+            return restTemplate.getForObject(baseUrl + "/v1/productos/" + sku + "/stock", ProductoResponseDto.class);
         } catch (HttpClientErrorException.NotFound e) {
-            throw new RecursoNoEncontradoException("No existe el producto con ID: " + productoId);
+            throw new RecursoNoEncontradoException("No existe el producto con ID: " + sku);
         }
     }
 
     // 2. Con el siguiente metodo, enviamos un POST a servicio-inventario para reservar stock para un pedido;
     // si no alcanza, inventario devuelve 400/409 y lanzamos StockInsuficienteException.
     public void reservarStock(ReservaStockRequestDto request) {
+
+        // Si bien servicio-inventario valida el stock y responde con un error HTTP (400/409),
+        // RestTemplate lanza HttpClientErrorException al recibir un 4xx; la capturamos para
+        // traducirla a una excepción de dominio propia y evitar que escale como un error 500.
         try {
             restTemplate.postForObject(baseUrl + "/v1/reservas", request, Object.class);
         } catch (HttpClientErrorException e) {
@@ -52,10 +56,10 @@ public class InventarioClient {
         }
     }
 
-    // 3. Con el siguiente metodo, enviamos un DELETE a servicio-inventario para liberar todas las reservas activas
-    // de un pedido (al cancelar o expirar en el batch).
+    // 3. Con el siguiente metodo, enviamos un POST a servicio-inventario para cambiar el estado de las reservas de ese pedido a LIBERADA.
+    // Se pasa 'null' como segundo argumento porque el pedidoId viaja en la URL y no se envía body en la petición.
     public void liberarReservasPorPedido(Integer pedidoId) {
-        restTemplate.delete(baseUrl + "/v1/reservas?pedidoId=" + pedidoId);
+        restTemplate.postForObject(baseUrl + "/v1/reservas/liberar/" + pedidoId, null, Void.class);
     }
 
 }
