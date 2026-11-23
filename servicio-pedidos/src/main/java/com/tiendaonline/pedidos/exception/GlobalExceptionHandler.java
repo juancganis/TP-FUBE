@@ -6,7 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.util.List;
 
 @RestControllerAdvice
@@ -56,7 +55,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Captura errores de @Valid en los DTOs.
+    // Nos sirve para capturar errores de @Valid en los DTOs.
     @ResponseStatus (HttpStatus.BAD_REQUEST) // Código de estado: 400.
     @ExceptionHandler (MethodArgumentNotValidException.class)
     public ErrorResponseDto manejarValidaciones(MethodArgumentNotValidException ex){
@@ -74,18 +73,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Otra forma de hacerlo (Ganis), pero no considera ErrorResponseDto:
-    /* @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidacion(MethodArgumentNotValidException ex) {
-        Map<String, String> errores = new LinkedHashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errores.putIfAbsent(error.getField(), error.getDefaultMessage())
-        );
-        return errores;
-    }*/
-
-    // Captura cualquier excepción no controlada para evitar exponer información interna al cliente.
+    // Nos sirve para capturar cualquier excepción no controlada y evitar exponer información interna al cliente.
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Código de estado: 500.
     @ExceptionHandler(Exception.class)
     public ErrorResponseDto manejarErrorGeneral(Exception ex) {

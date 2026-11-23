@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.beans.factory.annotation.Value;
 import com.tiendaonline.pedidos.dto.ReservaStockRequestDto;
@@ -39,6 +40,9 @@ public class InventarioClient {
             return restTemplate.getForObject(baseUrl + "/v1/productos/" + sku + "/stock", ProductoResponseDto.class);
         } catch (HttpClientErrorException.NotFound e) {
             throw new RecursoNoEncontradoException("No existe el producto con ID: " + sku);
+        } catch (ResourceAccessException e) {
+            // Se dispara cuando el microservicio destino está apagado o rechazó la conexión (o se terminó el tiempo).
+            throw new ServicioExternoException("El servicio de inventario no está disponible en este momento");
         }
     }
 
@@ -53,13 +57,23 @@ public class InventarioClient {
             restTemplate.postForObject(baseUrl + "/v1/reservas", request, Object.class);
         } catch (HttpClientErrorException e) {
             throw new StockInsuficienteException("Stock insuficiente para el producto con SKU: " + request.sku());
+        } catch (ResourceAccessException e) {
+            // Se dispara cuando el microservicio destino está apagado o rechazó la conexión (o se terminó el tiempo).
+            throw new ServicioExternoException("El servicio de inventario no está disponible en este momento");
         }
     }
 
     // 3. Con el siguiente metodo, enviamos un POST a servicio-inventario para cambiar el estado de las reservas de ese pedido a LIBERADA.
     // Se pasa 'null' como segundo argumento porque el pedidoId viaja en la URL y no se envía body en la petición.
     public void liberarReservasPorPedido(Integer pedidoId) {
-        restTemplate.postForObject(baseUrl + "/v1/reservas/liberar/" + pedidoId, null, Void.class);
+
+        try {
+            restTemplate.postForObject(baseUrl + "/v1/reservas/liberar/" + pedidoId, null, Void.class);
+        }   catch (ResourceAccessException e) {
+            // Se dispara cuando el microservicio destino está apagado o rechazó la conexión (o se terminó el tiempo).
+            throw new ServicioExternoException("El servicio de inventario no está disponible en este momento");
+        }
+
     }
 
 }
