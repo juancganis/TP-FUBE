@@ -34,7 +34,7 @@ public class ClienteControllerTest {
         ClienteDto clienteDto = new ClienteDto("Juan Perez", "juanperez@gmail.com");
         when(service.registrarCliente(clienteDto)).thenReturn(clienteDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/clientes")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/v1/clientes")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(clienteDto))
         )
@@ -47,7 +47,7 @@ public class ClienteControllerTest {
         when(service.registrarCliente(clienteDto))
             .thenThrow(new ClienteExistenteException("Ya existe un cliente con ese email"));
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/clientes")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/v1/clientes")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(clienteDto))
         )
