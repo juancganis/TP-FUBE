@@ -1,8 +1,13 @@
 package com.tiendaonline.pedidos.dto;
 
-// DTO interno utilizado para enviar la solicitud de reserva de stock a servicio-inventario:
+import lombok.Builder;
+import java.time.LocalDateTime;
+
+// DTO interno que usamos para enviar la solicitud de reserva de stock a servicio-inventario.
+@Builder
 public record ReservaStockRequestDto(
         Integer pedidoId,
-        String sku,
-        Integer cantidad
+        Integer cantidad,
+        LocalDateTime fechaCreacion,
+        String sku
 ) {}

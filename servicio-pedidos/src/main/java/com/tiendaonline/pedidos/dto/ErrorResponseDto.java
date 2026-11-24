@@ -3,12 +3,14 @@ package com.tiendaonline.pedidos.dto;
 import java.util.List;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 
 // Esta clase existe a fin de usar un record inmutable en lugar de un String plano para estandarizar todas las respuestas de error en un
 // formato JSON estructurado y conocido (con código, descripción, mensaje y detalles), facilitando su lectura por otros microservicios y clientes.
 
 // Esta anotación le indica a Jackson que omita del JSON generado cualquier propiedad cuyo valor sea null al serializar un objeto Java:
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public record ErrorResponseDto(
         LocalDateTime fechaYHora,
         int estado,
