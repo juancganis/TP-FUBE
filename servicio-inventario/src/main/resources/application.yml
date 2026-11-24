@@ -15,3 +15,24 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+# --- Observabilidad ---
+management:
+  tracing:
+    sampling:
+      # Trazar el 100% de las requests
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    tags:
+      # Tag común a todas las métricas, para identificar esta app en Prometheus
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        # Histograma de latencias HTTP, necesario para calcular percentiles (p95) en Prometheus
+        http:
+          server:
+            requests: true

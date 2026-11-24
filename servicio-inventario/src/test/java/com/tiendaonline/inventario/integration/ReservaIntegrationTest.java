@@ -7,7 +7,8 @@ import com.tiendaonline.inventario.models.Producto;
 import com.tiendaonline.inventario.models.Reserva;
 import com.tiendaonline.inventario.repository.ProductoRepository;
 import com.tiendaonline.inventario.repository.ReservaRepository;
-import org.junit.jupiter.api.BeforeEach;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest // levanta el contexto entero
 @AutoConfigureMockMvc
+@Transactional // para los test se asegura de hacer un rollback cuando terminan
 public class ReservaIntegrationTest {
 
     @Autowired
@@ -39,7 +41,7 @@ public class ReservaIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeEach
+    @AfterEach
     void vaciarBDD(){
         // limpio el repositorio antes de cada prueba
         reservaRepository.deleteAll();
