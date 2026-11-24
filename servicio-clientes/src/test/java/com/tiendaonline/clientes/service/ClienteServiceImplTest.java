@@ -105,6 +105,8 @@ public class ClienteServiceImplTest {
         ClienteDto clienteDto = new ClienteDto("Juan Perez", "juanperez@gmail.com");
 
         when(clienteRepository.existsByEmail(clienteDto.email())).thenReturn(false);
+        when(clienteRepository.save(any(Cliente.class)))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
         ClienteDto respuesta = clienteService.registrarCliente(clienteDto);
 
