@@ -52,7 +52,7 @@
         </format>
     </appender>
 
-    <logger name="com.fube.clientes" level="DEBUG"/>
+    <logger name="com.tiendaonline.clientes" level="DEBUG"/>
     <!-- Para ver el SQL de Hibernate, cambiar a DEBUG -->
     <logger name="org.hibernate.SQL" level="INFO"/>
 

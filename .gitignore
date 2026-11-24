@@ -14,3 +14,4 @@ HELP.md
 .env
 .claude/
 logs/
+./logs/
