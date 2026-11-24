@@ -39,7 +39,7 @@ public class InventarioClient {
         try {
             return restTemplate.getForObject(baseUrl + "/v1/productos/" + sku + "/stock", ProductoResponseDto.class);
         } catch (HttpClientErrorException.NotFound e) {
-            throw new RecursoNoEncontradoException("No existe el producto con ID: " + sku);
+            throw new RecursoNoEncontradoException("No existe el producto con SKU: " + sku);
         } catch (ResourceAccessException e) {
             // Se dispara cuando el microservicio destino está apagado o rechazó la conexión (o se terminó el tiempo).
             throw new ServicioExternoException("El servicio de inventario no está disponible en este momento");

@@ -16,7 +16,9 @@ spring:
     enabled: true
     locations: classpath:db/migration
   batch:
-    job:
+    jdbc: # Crea automáticamente las tablas BATCH_* en postgreSQL si todavía no existen (sin tocar las tablas de los scripts de Flyway).
+      initialize-schema: always
+    job: # Evita que el Job se dispare solo cada vez que levantamos la app o corremos un test.
       enabled: false
 servicios:
   clientes:
