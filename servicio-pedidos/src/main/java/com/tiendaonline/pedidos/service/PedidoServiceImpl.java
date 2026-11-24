@@ -7,6 +7,7 @@ import com.tiendaonline.pedidos.client.ClienteClient;
 import com.tiendaonline.pedidos.client.InventarioClient;
 import com.tiendaonline.pedidos.dto.*;
 import com.tiendaonline.pedidos.enums.EstadoPedido;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import com.tiendaonline.pedidos.exception.RecursoNoEncontradoException;
 import com.tiendaonline.pedidos.exception.EstadoPedidoInvalidoException;
@@ -16,7 +17,7 @@ import com.tiendaonline.pedidos.models.Pedido;
 import com.tiendaonline.pedidos.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 public class PedidoServiceImpl implements PedidoService{
 
@@ -34,6 +35,10 @@ public class PedidoServiceImpl implements PedidoService{
     @Override
     @Transactional // Esto es para que, si falla la reserva de stock en inventario, revertimos automáticamente el guardado del pedido en la base de datos.
     public PedidoResponseDto crearPedido(PedidoRequestDto requestDto) {
+
+        // Creamos un log para indicar el inicio de creación de un pedido.
+        log.info("Iniciando creación de pedido para el cliente con ID = {} / El pedido requiere {} item(s).",
+                requestDto.clienteId(), requestDto.listaItemsPedido().size());
 
         // Validamos que el cliente exista en servicio-clientes:
         clienteClient.validarExistenciaCliente(requestDto.clienteId());
@@ -70,6 +75,10 @@ public class PedidoServiceImpl implements PedidoService{
 
         // Persistimos el pedido para obtener su id generado antes de pedir las reservas:
         Pedido pedidoGuardado = pedidoRepository.save(pedido);
+
+        // Creamos un log para indicar la finalización (y persistencia en la bdd) de un pedido.
+        log.info("Pedido creado exitosamente con ID = {} para el cliente con ID = {}, con un monto total de = $ {}.",
+                pedidoGuardado.getId(), pedidoGuardado.getClienteId(), pedidoGuardado.getMontoTotal());
 
         // Solicitamos la reserva de stock para cada ítem en servicio-inventario:
         for (ItemPedidoRequestDto itemDto : requestDto.listaItemsPedido()) {
@@ -116,6 +125,9 @@ public class PedidoServiceImpl implements PedidoService{
                    // la liberación de stock en inventario fue exitosa.
     public PedidoResponseDto cancelarPedido(Integer pedidoId) {
 
+        // Creamos un log para indicar la petición de cancelar un pedido.
+        log.info("Solicitando cancelación del pedido con ID = {}", pedidoId);
+
         // Buscamos el pedido en la base de datos:
         Pedido pedido = pedidoRepository.findById(pedidoId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el pedido con ID: " + pedidoId));
@@ -135,6 +147,9 @@ public class PedidoServiceImpl implements PedidoService{
         // Persistimos:
         Pedido pedidoActualizado = pedidoRepository.save(pedido);
 
+        // Creamos un log para indicar el éxito de la operación de cancelación (y de liberación de stock).
+        log.info("El pedido con ID = {} fue cancelado exitosamente y el stock liberado en el inventario.", pedidoActualizado.getId());
+
         return PedidoMapper.toDTO(pedidoActualizado);
 
     }
@@ -144,6 +159,11 @@ public class PedidoServiceImpl implements PedidoService{
     private void validarEstadoCancelable(Pedido pedido) {
 
         if (pedido.getEstado() == EstadoPedido.CANCELADO || pedido.getEstado() == EstadoPedido.EXPIRADO) {
+
+            // Creamos un log del tipo WARN para indicar que no se pudo cancelar el pedido (se rechazó la cancelación).
+            log.warn("Rechazo de cancelación para el pedido con ID = {}: estado actual '{}' no permite cancelación.",
+                    pedido.getId(), pedido.getEstado());
+
             throw new EstadoPedidoInvalidoException("No se puede cancelar un pedido en estado: " + pedido.getEstado());
         }
 

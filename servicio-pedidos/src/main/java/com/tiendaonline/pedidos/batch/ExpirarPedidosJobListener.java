@@ -14,7 +14,8 @@ public class ExpirarPedidosJobListener implements JobExecutionListener {
     @Override
     public void beforeJob(JobExecution jobExecution){
 
-        log.info("Iniciando el Job Batch '{}' (ID de ejecución: {})",
+        // Creamos un log que avisa el comienzo del Job Batch (cuando sea que esté programado, indicando su ID).
+        log.info("Iniciando el Job Batch '{}' (ID de ejecución: {}).",
                 jobExecution.getJobInstance().getJobName(),
                 jobExecution.getId());
 
@@ -33,7 +34,8 @@ public class ExpirarPedidosJobListener implements JobExecutionListener {
                                 .sum();
 
 
-        log.info("Finalizó el Job Batch '{}' / Estado: {} / Pedidos vencidos leídos: {} / Pedidos expirados guardados: {}",
+        // Creamos un log que avisa de la finalización del Job Batch, mostrando datos de nombre, estado, cant. de pedidos vencidos leídos y los expirados guardados.
+        log.info("Finalizó el Job Batch '{}' / Estado: {} / Pedidos vencidos leídos: {} / Pedidos expirados guardados: {}.",
                 jobExecution.getJobInstance().getJobName(),
                 jobExecution.getStatus(),
                 totalLeidos,

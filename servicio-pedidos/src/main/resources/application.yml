@@ -16,10 +16,15 @@ spring:
     enabled: true
     locations: classpath:db/migration
   batch:
-    jdbc: # Crea automáticamente las tablas BATCH_* en postgreSQL si todavía no existen (sin tocar las tablas de los scripts de Flyway).
+    jdbc: # Esto crea automáticamente las tablas BATCH_* en postgreSQL si todavía no existen (sin tocar las tablas de los scripts de Flyway).
       initialize-schema: always
-    job: # Evita que el Job se dispare solo cada vez que levantamos la app o corremos un test.
+    job: # Esto evita que el Job se dispare solo cada vez que levantamos la app o corremos un test.
       enabled: false
+
+batch: # Creamos una propiedad personalizada que define el horario nocturno programado del cron.
+  expiracion: # El formato cron que usa Spring es segundos minutos horas día mes día-semana.
+    cron: "0 0 2 * * *" # Esto se traduce a "todos los días a las 02:00 AM", para respetar un horario nocturno de baja carga.
+
 servicios:
   clientes:
     url: http://localhost:8081

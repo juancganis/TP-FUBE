@@ -65,8 +65,8 @@ public class ExpirarPedidosBatchConfig {
                                    RepositoryItemWriter<Pedido> pedidosExpiradosWriter) {
 
         return new StepBuilder("expirarPedidosStep", jobRepository)
-                .<Pedido, Pedido>chunk(10, transactionManager)
-                .reader(pedidosVencidosReader)
+                .<Pedido, Pedido>chunk(10, transactionManager) // Esto permite que se procesen y confirmen en base de datos chunks de a 5 pedidos por transacción.
+                .reader(pedidosVencidosReader)                          // Se puso 'chunksize = 10' por convención de no poner algo ni muy chico ni muy grande.
                 .processor(pedidoExpiradoProcessor)
                 .writer(pedidosExpiradosWriter)
                 .build();

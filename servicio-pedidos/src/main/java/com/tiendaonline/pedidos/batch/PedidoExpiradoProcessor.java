@@ -25,7 +25,9 @@ public class PedidoExpiradoProcessor implements ItemProcessor<Pedido, Pedido> {
     @Override
     public Pedido process(Pedido pedido) {
 
-        log.info("Expirando pedido vencido con ID={} (creado el {})", pedido.getId(), pedido.getFechaCreacion());
+        // Creamos un log para indicar que se va a expirar un pedido vencido (mostrando id y fecha de creación del pedido).
+        log.info("Expirando pedido VENCIDO con ID = {} (creado en la fecha {})."
+                , pedido.getId(), pedido.getFechaCreacion());
 
         // Liberamos el stock previamente reservado en servicio-inventario:
         inventarioClient.liberarReservasPorPedido(pedido.getId());

@@ -21,9 +21,8 @@ public class ExpirarPedidosScheduler {
         this.expirarPedidosJob = expirarPedidosJob;
     }
 
-    // Se ejecuta automáticamente cada 1 hora (convención tomada para que los pedidos
-    // vencidos liberen su stock lo antes posible sin sobrecargar la base de datos).
-    @Scheduled(fixedRate = 3600000) // La tasa fija de tiempo se mide en ms → 1 hora = 3.600.000 ms.
+    // Programamos la ejecución automática del job según la expresión cron que definimos en application.yml (02:00 AM).
+    @Scheduled(cron = "${batch.expiration.cron}")
     public void ejecutarExpiracionPedidos() {
 
         try {
@@ -36,7 +35,8 @@ public class ExpirarPedidosScheduler {
             jobLauncher.run(expirarPedidosJob, params);
 
         } catch (Exception e) {
-            log.error("Error al ejecutar el proceso batch expirarPedidosJob: {}", e.getMessage(), e);
+            // Creamos un log del tipo ERROR para indicar que hubo un error al ejecutar el proceso batch.
+            log.error("Error al ejecutar el proceso batch expirarPedidosJob: {}.", e.getMessage(), e);
         }
 
     }

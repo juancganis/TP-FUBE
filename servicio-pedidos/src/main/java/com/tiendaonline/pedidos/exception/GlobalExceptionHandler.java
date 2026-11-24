@@ -1,5 +1,6 @@
 package com.tiendaonline.pedidos.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import com.tiendaonline.pedidos.dto.ErrorResponseDto;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,12 +10,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     // Se lanza cuando no existe en el sistema el pedido solicitado o el cliente consultado.
     @ResponseStatus (HttpStatus.NOT_FOUND) // Código de estado: 404.
     @ExceptionHandler (RecursoNoEncontradoException.class)
     public ErrorResponseDto manejarRecursoNoEncontrado(RecursoNoEncontradoException ex){
+
+        // Agregamos un log de tipo WARN para indicar que no se encontró un recurso:
+        log.warn("Recurso no encontrado: {}", ex.getMessage());
 
         return ErrorResponseDto.builder()
                 .estado(HttpStatus.NOT_FOUND.value())
@@ -42,6 +47,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler (EstadoPedidoInvalidoException.class)
     public ErrorResponseDto manejarEstadoPedidoInvalido(EstadoPedidoInvalidoException ex){
 
+        // Agregamos un log de tipo WARN para indicar que la operación fue rechazada por estado inválido del pedido:
+        log.warn("Operación rechazada por estado inválido: {}", ex.getMessage());
+
         return ErrorResponseDto.builder()
                 .estado(HttpStatus.CONFLICT.value())
                 .error("Estado de pedido inválido")
@@ -55,6 +63,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServicioExternoException.class)
     public ErrorResponseDto manejarServicioExterno(ServicioExternoException ex) {
 
+        // Agregamos un log de tipo ERROR para indicar que hubo un fallo de comunicación con el servicio externo:
+        log.error("Fallo de comunicación con servicio externo: {}", ex.getMessage());
+
         return ErrorResponseDto.builder()
                 .estado(HttpStatus.BAD_GATEWAY.value())
                 .error("Error de comunicación con servicio externo")
@@ -67,6 +78,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus (HttpStatus.BAD_REQUEST) // Código de estado: 400.
     @ExceptionHandler (MethodArgumentNotValidException.class)
     public ErrorResponseDto manejarValidaciones(MethodArgumentNotValidException ex){
+
+        // Agregamos un log de tipo WARN para indicar que hubo un error en la validación de datos de entrada:
+        log.warn("Error de validación en los datos de entrada.");
 
         List<String> errores = ex.getBindingResult()
                 .getFieldErrors()
@@ -86,6 +100,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Código de estado: 500.
     @ExceptionHandler(Exception.class)
     public ErrorResponseDto manejarErrorGeneral(Exception ex) {
+
+        // Agregamos un log de tipo ERROR para indicar que hubo un error interno inesperado:
+        log.error("Error interno inesperado en el servidor: {}", ex.getMessage(), ex);
 
         return ErrorResponseDto.builder()
                 .estado(HttpStatus.INTERNAL_SERVER_ERROR.value())
