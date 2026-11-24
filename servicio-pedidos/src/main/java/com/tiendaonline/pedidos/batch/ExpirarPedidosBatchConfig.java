@@ -31,14 +31,16 @@ public class ExpirarPedidosBatchConfig {
     // a fin de que LocalDateTime.now().minusHours(24) se calcule nuevo en cada corrida y no quede congelado al arrancar el servicio.
     public RepositoryItemReader<Pedido> pedidosVencidosReader(PedidoRepository pedidoRepository) {
 
+        // Tomamos la fecha/hora actual y le restamos 24 horas para obtener la fecha límite;
+        // todos los pedidos cuya fechaCreacion sean anteriores (Before) a ese instante tienen más de 24 horas y deben expirar.
         LocalDateTime fechaLimite = LocalDateTime.now().minusHours(24);
 
         return new RepositoryItemReaderBuilder<Pedido>()
                 .name("pedidosVencidosReader")
                 .repository(pedidoRepository)
                 .methodName("findByEstadoAndFechaCreacionBefore") // Nombre exacto del metodo definido en PedidoRepository.
-                .arguments(List.of(EstadoPedido.CREADO, fechaLimite))
-                .pageSize(10)
+                .arguments(List.of(EstadoPedido.CREADO, fechaLimite)) // Pasamos los parámetros de filtro (estado y fecha límite) al metodo del repositorio.
+                .pageSize(10) // Esta es la cantidad de registros que trae cada consulta paginada a la base de datos (mismo tamaño que el chunk).
                 .sorts(Map.of("id", Sort.Direction.ASC)) // Seteamos un orden para evitar saltos o duplicados al paginar entre chunks.
                 .build();
     }
