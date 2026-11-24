@@ -1,22 +1,20 @@
 package com.tiendaonline.pedidos.batch;
 
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.stereotype.Component;
-import java.util.logging.Logger;
 
 // Esta clase nos permite enganchar lógica antes y después de la ejecución completa del proceso batch.
+@Slf4j     // Genera automáticamente en tiempo de compilación un logger SLF4J (atributo 'log'), evitando declararlo manualmente (para no usar LoggerFactory).
 @Component // Registramos el listener como bean de Spring para inyectarlo en la configuración del Job.
 public class ExpirarPedidosJobListener implements JobExecutionListener {
-
-    private static final Logger log = LoggerFactory.getLogger(ExpirarPedidosJobListener.class);
 
     @Override
     public void beforeJob(JobExecution jobExecution){
 
-        log.info("Iniciando Job Batch '{}' (Execution ID: {})",
+        log.info("Iniciando el Job Batch '{}' (ID de ejecución: {})",
                 jobExecution.getJobInstance().getJobName(),
                 jobExecution.getId());
 
@@ -35,7 +33,7 @@ public class ExpirarPedidosJobListener implements JobExecutionListener {
                                 .sum();
 
 
-        log.info("Finalizó Job Batch '{}' | Estado: {} | Pedidos vencidos leídos: {} | Pedidos expirados guardados: {}",
+        log.info("Finalizó el Job Batch '{}' / Estado: {} / Pedidos vencidos leídos: {} / Pedidos expirados guardados: {}",
                 jobExecution.getJobInstance().getJobName(),
                 jobExecution.getStatus(),
                 totalLeidos,
