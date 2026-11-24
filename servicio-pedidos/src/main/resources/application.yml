@@ -22,7 +22,7 @@ spring:
       enabled: false
 
 batch: # Creamos una propiedad personalizada que define el horario nocturno programado del cron.
-  expiracion: # El formato cron que usa Spring es segundos minutos horas día mes día-semana.
+  expiration: # El formato cron que usa Spring es segundos minutos horas día mes día-semana.
     cron: "0 0 2 * * *" # Esto se traduce a "todos los días a las 02:00 AM", para respetar un horario nocturno de baja carga.
 
 servicios:
